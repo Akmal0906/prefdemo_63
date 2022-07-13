@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prefdemo_63/pages/signup_page.dart';
 
+import '../model/user_model.dart';
+import '../serviecs/pref_sevice.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
   static const String id = 'login_page';
@@ -11,6 +14,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _emailController=TextEditingController();
+  final _passwordController=TextEditingController();
+  void _doLogIn() async{
+    String email=_emailController.text.toString().trim();
+    String password=_passwordController.text.toString().trim();
+
+    User user1=User.from(email: email, password: password,id: 888);
+    Pref.storeUser(user1);
+    // print(email);
+    Pref.loadUser().then((user) =>  {
+      print(user1.email),
+      print(user1.password),
+    } );}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +82,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 2,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
                     hintText: 'email',
                     icon: Icon(Icons.email),
                     border: InputBorder.none,
@@ -89,8 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 2,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
                     hintText: 'Password',
                     icon: Icon(Icons.lock),
                     border: InputBorder.none,
@@ -118,13 +136,16 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.blue,
                 ),
-                child: const Center(
-                  child: Text(
-                    'LOG IN',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                child: TextButton(
+                  onPressed: _doLogIn,
+                  child: const Center(
+                    child: Text(
+                      'LOG IN',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
+                )
               ),
               const SizedBox(
                 height: 30,
@@ -199,11 +220,14 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       Navigator.pushNamed(context, SignUpPage.id);
                     },
-                  )
+                  ),
                 ],
               )
             ],
           ),
         ));
   }
+
+
+
 }

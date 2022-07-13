@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prefdemo_63/model/account_model.dart';
 import 'package:prefdemo_63/pages/login_page.dart';
+
+import '../serviecs/pref_sevice.dart';
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 static const String id='signup_page';
@@ -9,6 +12,27 @@ static const String id='signup_page';
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final personcontroller=TextEditingController();
+  final emailcontroller=TextEditingController();
+  final phonecontroller=TextEditingController();
+  final passwordcontroller=TextEditingController();
+  final confpasswordcontroller=TextEditingController();
+  void _doLogIn() async{
+    String email=emailcontroller.text.toString().trim();
+    String person=personcontroller.text.toString().trim();
+    String phone=phonecontroller.text.toString().trim();
+    String password=passwordcontroller.text.toString().trim();
+    String confpassword=confpasswordcontroller.text.toString().trim();
+    Account account1=Account(email: email, password: password,confpassword: confpassword,person: person,phone: phone);
+    Pref.storeAccount(account1);
+    // print(email);
+    Pref.loadUser().then((user) =>  {
+      print(account1.email),
+      print(account1.person),
+      print(account1.phone),
+      print(account1.password),
+      print(account1.confpassword),
+    } );}
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -56,8 +80,9 @@ backgroundColor: Colors.grey.shade300,
                       width: 1,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: personcontroller,
+                  decoration: const InputDecoration(
                     hintText: 'Person',
                     icon: Icon(Icons.person),
                     border: InputBorder.none,
@@ -79,8 +104,9 @@ backgroundColor: Colors.grey.shade300,
                       width: 1,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: emailcontroller,
+                  decoration: const InputDecoration(
                     hintText: 'email',
                     hintStyle: TextStyle(fontSize: 17),
                     icon: Icon(Icons.email),
@@ -103,8 +129,9 @@ backgroundColor: Colors.grey.shade300,
                       width: 1,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: phonecontroller,
+                  decoration: const InputDecoration(
                     hintText: 'Phone',
                     icon: Icon(Icons.phone),
                     border: InputBorder.none,
@@ -128,8 +155,9 @@ backgroundColor: Colors.grey.shade300,
                       width: 1,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: passwordcontroller,
+                  decoration:const InputDecoration(
                     hintText: 'Password',
                     icon: Icon(Icons.lock),
                     border: InputBorder.none,
@@ -151,8 +179,9 @@ backgroundColor: Colors.grey.shade300,
                       width: 1,
                       color: Colors.blue,
                     )),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child:  TextField(
+                  controller: confpasswordcontroller,
+                  decoration:const InputDecoration(
                     hintText: 'Confirm Password',
                     icon: Icon(Icons.lock),
                     border: InputBorder.none,
@@ -172,13 +201,16 @@ backgroundColor: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.blue,
                 ),
-                child: const Center(
-                  child: Text(
-                    'CREATE',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                child: TextButton(
+                  onPressed: _doLogIn,
+                  child: const Center(
+                    child: Text(
+                      'CREATE',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
+                )
               ),
               const SizedBox(
                 height: 30,

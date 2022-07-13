@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prefdemo_63/pages/home_page.dart';
 import 'package:prefdemo_63/pages/login_page.dart';
+
 import 'package:prefdemo_63/pages/page_one.dart';
 import 'package:prefdemo_63/pages/signup_page.dart';
 
@@ -19,11 +20,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+
       ),
-      home: const HomePage(),
+      home: const LoginPage(),
 
       routes: {
+
         SignUpPage.id:(context)=> const SignUpPage(),
         LoginPage.id:(context)=>const LoginPage(),
         PageOne.id:(context)=>const PageOne(),
